@@ -1,0 +1,1 @@
+console.log('Campo Minado: projeto inicializado.');
