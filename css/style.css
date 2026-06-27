@@ -1,0 +1,53 @@
+
+:root { /*isso vale pra pagina inteira*/
+  --cor-fundo: #1f2630;
+  --cor-painel: #2b3442;
+  --cor-texto: #eef1f5;
+  --cor-celula: #3a4555;
+  --cor-celula-aberta: #1a2029;
+  --cor-mina: #e5484d;
+  --cor-bandeira: #f5a623;
+  --tamanho-celula: 36px;
+}
+
+* {/* isso aqui é para não somar padding  e borda, os dois ficam dentro dos 36px*/
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;  /*remove margem*/
+  min-height: 100vh; /*garante que vai ocupar 100%*/
+  background: var(--cor-fundo);/*usamos as variaveis que criamos em root */
+  color: var(--cor-texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /*isso aqui é coisa da IA, aparentemente são fontes*/
+  display: flex;
+  justify-content: center; /*centraliza horizontalmente*/
+  -webkit-tap-highlight-color: transparent;/* evita o "flash azul" e seleção de texto ao tocar repetidamente nas células no mobile (coisa da IA) */
+  user-select: none; /*para não selecionar os textos da pagina*/
+}
+
+#app {
+  width: 100%;
+  max-width: 480px;
+  padding: 16px;
+  text-align: center;
+} /* limita para não esticar infinitamente em telas grandes*/
+
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+/* Telas maiores: aumenta um pouco o respiro e o tamanho da célula */
+@media (min-width: 600px) {
+  :root {
+    --tamanho-celula: 40px;
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+/*"Mobile-first" significa: os estilos fora do @media já são pensados pra tela pequena (celular). 
+O @media (min-width: 600px) só entra em ação quando a tela é maior ou igual a 600px — ou seja
+, ele adiciona/sobrescreve regras pra telas maiores, em vez de fazer o caminho contrário (que seria max-width
+, pensando "desktop primeiro, depois encolho pro mobile").*/

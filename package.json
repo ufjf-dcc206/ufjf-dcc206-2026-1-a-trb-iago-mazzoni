@@ -1,0 +1,21 @@
+{
+  "name": "ufjf-dcc206-2026-1-a-trb-iago-mazzoni",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ufjf-dcc206/ufjf-dcc206-2026-1-a-trb-iago-mazzoni.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ufjf-dcc206/ufjf-dcc206-2026-1-a-trb-iago-mazzoni/issues"
+  },
+  "homepage": "https://github.com/ufjf-dcc206/ufjf-dcc206-2026-1-a-trb-iago-mazzoni#readme"
+}
