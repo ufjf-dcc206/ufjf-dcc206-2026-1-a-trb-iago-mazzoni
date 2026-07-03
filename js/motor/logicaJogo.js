@@ -93,3 +93,5 @@ export function calcularVizinhas(tabuleiro) {
 
   return novo;
 }
+
+
