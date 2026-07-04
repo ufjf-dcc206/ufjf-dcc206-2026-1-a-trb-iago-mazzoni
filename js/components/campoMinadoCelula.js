@@ -17,12 +17,28 @@ template.innerHTML = `
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      transition: background 0.1s;
     }
+    
+      :host([aberta]) button {
+      background: var(--cor-celula-aberta, #1a2029);
+      cursor: default;
+    }
+
+    :host([valor="1"]) button { color: #4fc3f7; }
+    :host([valor="2"]) button { color: #81c784; }
+    :host([valor="3"]) button { color: #e57373; }
+    :host([valor="4"]) button { color: #7986cb; }
+    :host([valor="5"]) button { color: #ff8a65; }
+    :host([valor="6"]) button { color: #4dd0e1; }
+    :host([valor="7"]) button { color: #f06292; }
+    :host([valor="8"]) button { color: #90a4ae; }
+
+
+    
   </style>
 
-  <button type="button" part="botao-celula">
-    <!-- O conteúdo (número, mina, bandeira) vai aparecer aqui dentro -->
-  </button>
+  <button type="button" part="botao-celula"></button>
 `;
 
 export class CampoMinadoCelula extends HTMLElement {
@@ -36,12 +52,29 @@ export class CampoMinadoCelula extends HTMLElement {
 
   connectedCallback() {
     this._button.addEventListener('click', () => {
+      
+      if (this.hasAttribute('aberta')) return;
+
       this.dispatchEvent(new CustomEvent('click-celula', {
         bubbles: true,   // o evento "sobe" pela árvore do DOM
         composed: true,  // o evento atravessa a fronteira do Shadow DOM
       }));
     });
   }
+  static get observedAttributes() {
+    return ['aberta', 'valor'];
+  }
+
+  attributeChangedCallback(nome, antigo, novo) {
+    if (nome === 'aberta') {
+      this._button.textContent = '';
+    }
+
+    if (nome === 'valor' && novo) {
+      this._button.textContent = novo;
+    }
+  }
+
 }
 
 customElements.define('campominado-celula', CampoMinadoCelula);

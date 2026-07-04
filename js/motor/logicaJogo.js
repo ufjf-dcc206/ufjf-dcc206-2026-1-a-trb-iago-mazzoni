@@ -95,3 +95,16 @@ export function calcularVizinhas(tabuleiro) {
 }
 
 
+export function abrirCelula(tabuleiro, linha, coluna) {
+
+  const novo = tabuleiro.map(l => l.map(c => ({ ...c })));
+
+  const celula = novo[linha][coluna];
+
+
+  if (celula.aberta || celula.bandeira) return novo;
+
+  celula.aberta = true;
+
+  return novo;
+}

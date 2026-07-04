@@ -1,4 +1,4 @@
-import { DIFICULDADES, criarTabuleiro, distribuirMinas, calcularVizinhas } from '../motor/logicaJogo.js';
+import { DIFICULDADES, criarTabuleiro, distribuirMinas, calcularVizinhas, abrirCelula } from '../motor/logicaJogo.js';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -65,9 +65,24 @@ export class CampominadoTabuleiro extends HTMLElement {
     this._grade.addEventListener('click-celula', (e) => {//isso aqui volta naquele customEvent que criamos na celula. Aqueles trem de bubbles e composed
       const linha = parseInt(e.target.getAttribute('data-linha'));
       const coluna = parseInt(e.target.getAttribute('data-coluna'));//target no caso referencia a celula especifica que foi clicada
-      console.log(`Clicou na célula [${linha}][${coluna}]`);
+
+      this._tabuleiro = abrirCelula(this._tabuleiro, linha, coluna);
+      this._atualizarCelula(e.target, this._tabuleiro[linha][coluna]);
     });
   }
+
+  _atualizarCelula(elemento, celula) {
+    if (!celula.aberta) return;
+
+    elemento.setAttribute('aberta', '');
+
+    if (celula.vizinhas > 0) {
+      elemento.setAttribute('valor', celula.vizinhas);
+    }
+  }
+
 }
+
+
 
 customElements.define('campominado-tabuleiro', CampominadoTabuleiro);
