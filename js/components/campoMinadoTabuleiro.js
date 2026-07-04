@@ -1,4 +1,4 @@
-import { DIFICULDADES, criarTabuleiro, distribuirMinas, calcularVizinhas, abrirCelula } from '../motor/logicaJogo.js';
+import { DIFICULDADES, criarTabuleiro, distribuirMinas, calcularVizinhas, abrirCelula, alternarBandeira } from '../motor/logicaJogo.js';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -25,6 +25,7 @@ export class CampominadoTabuleiro extends HTMLElement {
 
     this._grade = this.shadowRoot.querySelector('#grade');// isso aqui guarda referencia ao div id="grade", para n ter que fazer querrySlector toda vez que for mexer nele
     this._tabuleiro = []; // estado atual do jogo (matriz de células)
+    this._modoBandeira = false; 
   }
 
   connectedCallback() {
@@ -66,19 +67,36 @@ export class CampominadoTabuleiro extends HTMLElement {
       const linha = parseInt(e.target.getAttribute('data-linha'));
       const coluna = parseInt(e.target.getAttribute('data-coluna'));//target no caso referencia a celula especifica que foi clicada
 
-      this._tabuleiro = abrirCelula(this._tabuleiro, linha, coluna);
-      this._atualizarCelula(e.target, this._tabuleiro[linha][coluna]);
+
+      if (this._modoBandeira) {
+        this._tabuleiro = alternarBandeira(this._tabuleiro, linha, coluna);
+        this._atualizarCelula(e.target, this._tabuleiro[linha][coluna]);
+      } else {
+        this._tabuleiro = abrirCelula(this._tabuleiro, linha, coluna);
+        this._atualizarCelula(e.target, this._tabuleiro[linha][coluna]);
+      }
     });
   }
 
   _atualizarCelula(elemento, celula) {
-    if (!celula.aberta) return;
-
-    elemento.setAttribute('aberta', '');
-
-    if (celula.vizinhas > 0) {
-      elemento.setAttribute('valor', celula.vizinhas);
+    if (celula.bandeira) {
+      elemento.setAttribute('bandeira', '');
+      return;
     }
+
+    elemento.removeAttribute('bandeira');
+
+    if (celula.aberta) {
+      elemento.setAttribute('aberta', '');
+      if (celula.vizinhas > 0) {
+        elemento.setAttribute('valor', celula.vizinhas);
+      }
+    }
+  }
+
+  alternarModoBandeira() {
+    this._modoBandeira = !this._modoBandeira;
+    return this._modoBandeira;
   }
 
 }

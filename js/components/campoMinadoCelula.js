@@ -20,9 +20,14 @@ template.innerHTML = `
       transition: background 0.1s;
     }
     
-      :host([aberta]) button {
+    :host([aberta]) button {
       background: var(--cor-celula-aberta, #1a2029);
       cursor: default;
+    }
+
+    :host([bandeira]) button {
+      background: var(--cor-bandeira, #f5a623);
+      color: #000;
     }
 
     :host([valor="1"]) button { color: #4fc3f7; }

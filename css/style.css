@@ -51,3 +51,19 @@ h1 {
 O @media (min-width: 600px) só entra em ação quando a tela é maior ou igual a 600px — ou seja
 , ele adiciona/sobrescreve regras pra telas maiores, em vez de fazer o caminho contrário (que seria max-width
 , pensando "desktop primeiro, depois encolho pro mobile").*/
+
+#btn-bandeira {
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  border: 2px solid var(--cor-bandeira);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--cor-texto);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#btn-bandeira.ativo {
+  background: var(--cor-bandeira);
+  color: #000;
+}
