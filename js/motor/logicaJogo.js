@@ -117,3 +117,20 @@ export function alternarBandeira(tabuleiro, linha, coluna) {
 
   return novo;
 }
+
+export function verificarDerrota(tabuleiro, linha, coluna) {
+  return tabuleiro[linha][coluna].temMina;
+}
+
+export function verificarVitoria(tabuleiro) {
+
+  const todasCelulas = tabuleiro.flat();
+
+  const celulasSemMina = todasCelulas.filter(celula => !celula.temMina);
+
+  const todasAbertas = celulasSemMina.every(celula => celula.aberta);
+
+  return todasAbertas;
+}
+
+

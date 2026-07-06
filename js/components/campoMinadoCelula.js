@@ -30,6 +30,11 @@ template.innerHTML = `
       color: #000;
     }
 
+    :host([mina]) button {
+      background: var(--cor-mina, #e5484d);
+      color: #fff;
+    }
+
     :host([valor="1"]) button { color: #4fc3f7; }
     :host([valor="2"]) button { color: #81c784; }
     :host([valor="3"]) button { color: #e57373; }
@@ -67,7 +72,7 @@ export class CampoMinadoCelula extends HTMLElement {
     });
   }
   static get observedAttributes() {
-    return ['aberta', 'valor'];
+    return ['aberta', 'valor', 'bandeira', 'mina'];
   }
 
   attributeChangedCallback(nome, antigo, novo) {
@@ -77,6 +82,14 @@ export class CampoMinadoCelula extends HTMLElement {
 
     if (nome === 'valor' && novo) {
       this._button.textContent = novo;
+    }
+
+    if(nome === 'mina') {
+      this._button.textContent = ' O '
+    }
+
+    if(nome === 'bandeira') {
+      this._button.textContent = novo !== null ? ' X ' : '';
     }
   }
 
