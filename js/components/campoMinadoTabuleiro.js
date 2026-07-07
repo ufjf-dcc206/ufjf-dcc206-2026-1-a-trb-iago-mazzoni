@@ -50,28 +50,30 @@ export class CampominadoTabuleiro extends HTMLElement {
   }
 
   _renderizar() {
-
-    this._grade.innerHTML = ''; // vai ser importante limpar quando for criar o botao de reiniciar
-
+    this._grade.innerHTML = '';
+  
     this._tabuleiro.forEach((linha, l) => {
       linha.forEach((celula, c) => {
         const el = document.createElement('campominado-celula');
-
-        el.setAttribute('data-linha', l); // esse "data-agumaCoisa" é um padrão do html para salvar algum atributo extra
+        el.setAttribute('data-linha', l);
         el.setAttribute('data-coluna', c);
-
         this._grade.appendChild(el);
       });
     });
-
-
-    this._grade.addEventListener('click-celula', (e) => {//isso aqui volta naquele customEvent que criamos na celula. Aqueles trem de bubbles e composed
-      if(!this._jogoAtivo) return;
-      
+  
+    // Remove o listener antigo antes de adicionar um novo
+    // _onCliqueHandler guarda a referência da função pra poder remover depois
+    if (this._onCliqueHandler) {
+      this._grade.removeEventListener('click-celula', this._onCliqueHandler);
+    }
+  
+    // Guarda a referência do handler como propriedade da classe
+    this._onCliqueHandler = (e) => {
+      if (!this._jogoAtivo) return;
+    
       const linha = parseInt(e.target.getAttribute('data-linha'));
-      const coluna = parseInt(e.target.getAttribute('data-coluna'));//target no caso referencia a celula especifica que foi clicada
-
-
+      const coluna = parseInt(e.target.getAttribute('data-coluna'));
+    
       if (this._modoBandeira) {
         this._tabuleiro = alternarBandeira(this._tabuleiro, linha, coluna);
         this._atualizarCelula(e.target, this._tabuleiro[linha][coluna]);
@@ -92,7 +94,9 @@ export class CampominadoTabuleiro extends HTMLElement {
         this._jogoAtivo = false;
         this._dispararEvento('jogo-vitoria');
       }
-    });
+    };
+  
+    this._grade.addEventListener('click-celula', this._onCliqueHandler);
   }
 
   _atualizarCelula(elemento, celula) {

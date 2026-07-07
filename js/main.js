@@ -9,8 +9,10 @@ barraFerramentas.addEventListener('barra-bandeira', (e) => {
   tabuleiro.alternarModoBandeira();
 });
 
-barraFerramentas.addEventListener('barra-reiniciar', () => {
-  tabuleiro.reiniciar();
+barraFerramentas.addEventListener('barra-reiniciar', (e) => {
+  const dificuldade = e.detail?.dificuldade || 'facil';//?. Antes de acessar a propriedade, ele verifica se o lado esquerdo existe. 
+  //Se for null ou undefined, para ali e retorna undefined em vez de lançar erro
+  tabuleiro.reiniciar(dificuldade);
   barraFerramentas.atualizarContador(tabuleiro.totalMinas, tabuleiro.bandeirasMarcadas);
 });
 

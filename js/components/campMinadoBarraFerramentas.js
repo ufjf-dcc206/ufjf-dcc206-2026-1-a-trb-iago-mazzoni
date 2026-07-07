@@ -42,9 +42,23 @@ template.innerHTML = `
       min-width: 60px;
       text-align: center;
     }
+
+    #seletor-dificuldade {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 2px solid var(--cor-texto, #eef1f5);
+      background: var(--cor-painel, #2b3442);
+      color: var(--cor-texto, #eef1f5);
+      font-size: 1rem;
+      cursor: pointer;
   </style>
 
   <div class="barra">
+    <select id="seletor-dificuldade">
+      <option value="facil">Fácil (9x9)</option>
+      <option value="medio">Médio (16x16)</option>
+      <option value="dificil">Difícil (16x30)</option>
+    </select>
     <span id="contador">Bombas 0</span>
     <button id="btn-bandeira" type="button">X Bandeira</button>
     <button id="btn-reiniciar" type="button">Reiniciar</button>
@@ -60,14 +74,12 @@ export class campMinadoBarraFerramentas extends HTMLElement {
     this._contador = this.shadowRoot.querySelector('#contador');
     this._btnBandeira = this.shadowRoot.querySelector('#btn-bandeira');
     this._btnReiniciar = this.shadowRoot.querySelector('#btn-reiniciar');
+    this._seletorDificuldade = this.shadowRoot.querySelector('#seletor-dificuldade');
   }
 
   connectedCallback() {
     this._btnBandeira.addEventListener('click', () => {
-      
       const ativo = this._btnBandeira.classList.toggle('ativo');
-
-      
       this.dispatchEvent(new CustomEvent('barra-bandeira', {
         bubbles: true,
         composed: true,
@@ -76,16 +88,27 @@ export class campMinadoBarraFerramentas extends HTMLElement {
     });
 
     this._btnReiniciar.addEventListener('click', () => {
-      
-      this._btnBandeira.classList.remove('ativo');
+        this._btnBandeira.classList.remove('ativo');
+        this.dispatchEvent(new CustomEvent('barra-reiniciar', {
+          bubbles: true,
+          composed: true,
+          detail: { dificuldade: this._seletorDificuldade.value }, 
+        }));
+    });
 
-      this.dispatchEvent(new CustomEvent('barra-reiniciar', {
-        bubbles: true,
-        composed: true,
-      }));
+    this._seletorDificuldade.addEventListener('change', () => {
+        this._btnBandeira.classList.remove('ativo');
+        this.dispatchEvent(new CustomEvent('barra-reiniciar', {
+            bubbles: true,
+            composed: true,
+            detail: { dificuldade: this._seletorDificuldade.value },
+        }));
     });
   }
 
+  get dificuldade() {
+    return this._seletorDificuldade.value;
+  }
   
   atualizarContador(minasTotais, bandeirasMarcadas) {
     const restantes = minasTotais - bandeirasMarcadas;
