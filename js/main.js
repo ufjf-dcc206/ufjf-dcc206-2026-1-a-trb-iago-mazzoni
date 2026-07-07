@@ -1,13 +1,21 @@
 import './components/campoMinadoCelula.js';
 import './components/campominadoTabuleiro.js';
+import './components/campMinadoBarraFerramentas.js';
 
 const tabuleiro = document.querySelector('campominado-tabuleiro');
-const btnBandeira = document.getElementById('btn-bandeira');
+const barraFerramentas = document.querySelector('campominado-barra');
 
-btnBandeira.addEventListener('click', () => {
-  const ativo = tabuleiro.alternarModoBandeira();
-  btnBandeira.classList.toggle('ativo', ativo);
-  btnBandeira.textContent = ativo ? ' Modo Bandeira (X): ON' : ' Modo Bandeira (X): OFF';
+barraFerramentas.addEventListener('barra-bandeira', (e) => {
+  tabuleiro.alternarModoBandeira();
+});
+
+barraFerramentas.addEventListener('barra-reiniciar', () => {
+  tabuleiro.reiniciar();
+  barraFerramentas.atualizarContador(tabuleiro.totalMinas, tabuleiro.bandeirasMarcadas);
+});
+
+tabuleiro.addEventListener('tabuleiro-atualizado', () => {
+  barraFerramentas.atualizarContador(tabuleiro.totalMinas, tabuleiro.bandeirasMarcadas);
 });
 
 tabuleiro.addEventListener('jogo-derrota', () => {
@@ -17,5 +25,9 @@ tabuleiro.addEventListener('jogo-derrota', () => {
 tabuleiro.addEventListener('jogo-vitoria', () => {
   setTimeout(() => alert('Você venceu! Parabéns!'), 100);
 });
+
+setTimeout(() => {
+  barraFerramentas.atualizarContador(tabuleiro.totalMinas, tabuleiro.bandeirasMarcadas);
+}, 0);
 
 console.log('Campo Minado: projeto inicializado.');

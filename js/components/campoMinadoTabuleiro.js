@@ -98,10 +98,9 @@ export class CampominadoTabuleiro extends HTMLElement {
   _atualizarCelula(elemento, celula) {
     if (celula.bandeira) {
       elemento.setAttribute('bandeira', '');
-      return;
+    } else {
+      elemento.removeAttribute('bandeira');
     }
-
-    elemento.removeAttribute('bandeira');
 
     if (celula.aberta) {
       elemento.setAttribute('aberta', '');
@@ -109,6 +108,8 @@ export class CampominadoTabuleiro extends HTMLElement {
         elemento.setAttribute('valor', celula.vizinhas);
       }
     }
+
+    this._dispararEvento('tabuleiro-atualizado');
   }
 
   alternarModoBandeira() {
@@ -133,6 +134,19 @@ export class CampominadoTabuleiro extends HTMLElement {
       bubbles: true,
       composed: true,
     }));
+  }
+
+  get bandeirasMarcadas() {
+    return this._tabuleiro.flat().filter(c => c.bandeira).length;
+  }
+
+  get totalMinas() {
+    return this._tabuleiro.flat().filter(c => c.temMina).length;
+  }
+
+  reiniciar(dificuldade) {
+    this._modoBandeira = false;
+    this.iniciarJogo(dificuldade || this.getAttribute('dificuldade') || 'facil');
   }
 
 }
