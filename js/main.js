@@ -1,6 +1,6 @@
 import './components/campoMinadoCelula.js';
-import './components/campominadoTabuleiro.js';
-import './components/campMinadoBarraFerramentas.js';
+import './components/campoMinadoTabuleiro.js';
+import './components/campoMinadoBarraFerramentas.js';
 
 const tabuleiro = document.querySelector('campominado-tabuleiro');
 const barraFerramentas = document.querySelector('campominado-barra');
